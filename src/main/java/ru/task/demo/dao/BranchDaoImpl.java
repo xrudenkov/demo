@@ -4,7 +4,6 @@ import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
-import java.util.Optional;
 import ru.task.demo.entity.Branch;
 import ru.task.demo.model.BranchModel;
 import ru.task.demo.util.DateFormatter;
