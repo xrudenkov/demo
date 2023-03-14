@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk>
+	<!-- Data Binding -->
+	<!-- 9.6.3-Eval -->
+
+	<listener>
+		<listener-class>org.zkoss.zkmax.au.websocket.WebSocketWebAppInit</listener-class>
+	</listener>
+
+	<library-property>
+		<name>org.zkoss.theme.preferred</name>
+		<value>iceblue_c</value>
+	</library-property>
+
+	<library-property>
+		<name>org.zkoss.zkplus.cdi.beanManager.jndiName</name>
+		<value>java:comp/env/BeanManager</value>
+	</library-property>
+
+	<error-page>
+		<exception-type>java.lang.Throwable</exception-type>
+		<location/>
+	</error-page>
+</zk>
