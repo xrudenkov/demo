@@ -21,11 +21,6 @@ public class BranchDaoImpl implements BranchDao {
     }
 
     @Override
-    public Optional<Branch> findByName(String name) {
-        return Optional.empty();
-    }
-
-    @Override
     public void insert(Branch branch) {
         em.persist(branch);
     }

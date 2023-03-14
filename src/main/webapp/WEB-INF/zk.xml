@@ -8,11 +8,6 @@
 	</listener>
 
 	<library-property>
-		<name>org.zkoss.theme.preferred</name>
-		<value>iceblue_c</value>
-	</library-property>
-
-	<library-property>
 		<name>org.zkoss.zkplus.cdi.beanManager.jndiName</name>
 		<value>java:comp/env/BeanManager</value>
 	</library-property>
