@@ -28,29 +28,31 @@
 							</div>
 						</div>
 						<div class="table-size">
-							<forEach items="@load(vm.companies)" varStatus="item">
-								<div class="eachrow row list-group-item" onClick="@command('selectCompany', id = item.index)">
-									<div class="col-xs-1">
-										<label value="${item.index + 1}"/>
+							<div children="@load(vm.companies)">
+								<template name="children" var="element">
+									<div class="eachrow row list-group-item" onClick="@command('selectCompany', id = elementStatus.index)">
+										<div class="col-xs-1">
+											<label value="@load(elementStatus.index + 1)"/>
+										</div>
+										<div class="col-xs-4">
+											<label value="@load(element.name)"/>
+										</div>
+										<div class="col-xs-2" align="center">
+											<label value="@load(element.legalForm)"/>
+										</div>
+										<div class="col-xs-5" align="center">
+											<label value="@load(element.registrationDate)"/>
+										</div>
 									</div>
-									<div class="col-xs-4">
-										<label value="@load(each.name)"/>
-									</div>
-									<div class="col-xs-2" align="center">
-										<label value="@load(each.legalForm)"/>
-									</div>
-									<div class="col-xs-5" align="center">
-										<label value="@load(each.registrationDate)"/>
-									</div>
-								</div>
-							</forEach>
+								</template>
+							</div>
 						</div>
 					</div>
 					<button class="formBtn btn-large btn-primary" visible="@load(vm.toggleCommon)" onClick="@command('addCompany')">Добавить</button>
 				</div>
 				<div class="col-xs-6 col-md-5" left="30px">
-					<if test="@load(vm.selectedCompany)">
-						<if test="@load(vm.toggleNew eq false)">
+					<div visible="@load(vm.selectedCompany)">
+						<div visible="@load(vm.toggleNew eq false)">
 							<n:form>
 								<div class="form-group row">
 									<label class="col-sm-6 col-form-label form-control-lg">Название:</label>
@@ -114,17 +116,17 @@
 									</div>
 								</div>
 							</n:form>
-							<if test="@load(vm.toggleEdit eq false)">
+							<div visible="@load(vm.toggleEdit eq false)">
 								<button class="formBtn btn-large btn-warning" onClick="@command('editCompany')">Изменить</button>
 								<button class="formBtn btn-large btn-danger" onClick="@command('deleteCompany')">Удалить</button>
-							</if>
-							<if test="@load(vm.toggleEdit)">
+							</div>
+							<div visible="@load(vm.toggleEdit)">
 								<button class="formBtn btn-large btn-success" onClick="@command('saveCompany')">Сохранить</button>
 								<button class="formBtn btn-large btn-danger" onClick="@command('cancelCompany')">Отмена</button>
-							</if>
-						</if>
-					</if>
-					<if test="@load(vm.toggleNew)">
+							</div>
+						</div>
+					</div>
+					<div visible="@load(vm.toggleNew)">
 						<n:form>
 							<div class="form-group row">
 								<label class="col-sm-6 col-form-label form-control-lg">Название:</label>
@@ -184,10 +186,10 @@
 						</n:form>
 						<button class="formBtn btn-large btn-success" onClick="@command('saveCompany')">Сохранить</button>
 						<button class="formBtn btn-large btn-danger" onClick="@command('cancelCompany')">Отмена</button>
-					</if>
+					</div>
 				</div>
 			</vlayout>
-			<apply templateURI="branch.zul" dynamicValue="true"/>
+			<include src="branch.zul"/>
 		</div>
 	</window>
 </zk>

@@ -11,9 +11,6 @@ repositories {
     maven {
         url "https://mavensync.zkoss.org/maven2"
     }
-    maven {
-        url "https://mavensync.zkoss.org/eval"
-    }
 }
 
 ext {
@@ -34,15 +31,12 @@ dependencies {
     implementation('org.glassfish.jaxb:jaxb-runtime:3.0.2')
     implementation('org.hibernate.validator:hibernate-validator:7.0.4.Final')
     implementation('org.jboss.weld.se:weld-se-core:4.0.3.Final')
-    implementation("org.zkoss.zk:zk:9.6.3-jakarta-Eval")
-    implementation('org.zkoss.zk:zkbind:9.6.3-jakarta-Eval')
+    implementation("org.zkoss.zk:zk:9.6.0.2-jakarta")
+    implementation('org.zkoss.zk:zkbind:9.6.0.2-jakarta')
     implementation("org.zkoss.zk:zkplus:9.6.0.2-jakarta")
-    implementation('org.zkoss.zk:zkex:9.6.3-jakarta-Eval')
-    implementation('org.zkoss.zk:zkmax:9.6.3-jakarta-Eval')
-    implementation("org.zkoss.zk:zul:9.6.3-jakarta-Eval")
-    implementation('org.zkoss.zk:zuti:9.6.3-jakarta-Eval')
-    implementation('org.zkoss.zk:za11y:9.6.3-jakarta-Eval')
-    implementation('org.zkoss.zk:zhtml:9.6.3-jakarta-Eval')
+    implementation("org.zkoss.zk:zul:9.6.0.2-jakarta")
+    implementation('org.zkoss.zk:zhtml:9.6.0.2-jakarta')
+    implementation('org.zkoss.zk:zkwebfragment:9.6.0.2-jakarta')
     implementation('commons-io:commons-io:2.11.0')
     implementation('commons-fileupload:commons-fileupload:1.5')
     implementation("org.mapstruct:mapstruct:1.5.3.Final")

@@ -1,32 +1,42 @@
-FROM jboss/base-jdk:11
+FROM openjdk:11-jre
 MAINTAINER Rudenko Vasilii <rudenko_96@mail.ru>
 
-USER root
-RUN cd $JBOSS_HOME
-RUN curl -O https://download.jboss.org/wildfly/24.0.1.Final/wildfly-preview-24.0.1.Final.tar.gz
-RUN tar xf wildfly-preview-24.0.1.Final.tar.gz
-#RUN rm wildfly-preview-24.0.1.Final
+ENV WILDFLY_VERSION  preview-24.0.1.Final
+ENV JBOSS_HOME       /opt/wildfly
+
+ADD run.sh /
+
+RUN curl -O https://download.jboss.org/wildfly/24.0.1.Final/wildfly-$WILDFLY_VERSION.tar.gz \
+    && tar xf wildfly-$WILDFLY_VERSION.tar.gz \
+    && mv wildfly-$WILDFLY_VERSION $JBOSS_HOME \
+    && rm wildfly-$WILDFLY_VERSION.tar.gz \
+    && mkdir $JBOSS_HOME/standalone/data \
+    && mkdir $JBOSS_HOME/standalone/log \
+    && groupadd -r wildfly -g 433 \
+    && useradd -u 431 -r -g wildfly -d $JBOSS_HOME -s /bin/false -c "WildFly user" wildfly \
+    && chown wildfly:wildfly $JAVA_HOME/lib/security/cacerts \
+    && chmod +x /run.sh \
+    && chown -R wildfly:wildfly $JBOSS_HOME/
+
 ENV LAUNCH_JBOSS_IN_BACKGROUND true
-USER jboss
 
 # Appserver
-ENV WILDFLY_USER admin
-ENV WILDFLY_PASS adminPassword
+ENV WILDFLY_USER    admin
+ENV WILDFLY_PASS    adminPassword
 
 # Database
-ENV DB_NAME demo
-ENV DB_USER root
-ENV DB_PASS root
-ENV DB_URI db-mysql:3306
+ENV DB_NAME         demo
+ENV DB_USER         root
+ENV DB_PASS         root
+ENV DB_URI          db-mysql:3306
+ENV MYSQL_VERSION   8.0.25
 
-ENV MYSQL_VERSION 8.0.25
-ENV JBOSS_HOME /opt/jboss/wildfly-preview-24.0.1.Final
-ENV JBOSS_CLI /opt/jboss/wildfly-preview-24.0.1.Final/bin/jboss-cli.sh
-ENV DEPLOYMENT_DIR /opt/jboss/wildfly-preview-24.0.1.Final/standalone/deployments/
+ENV JBOSS_CLI       /opt/wildfly/bin/jboss-cli.sh
+ENV DEPLOYMENT_DIR  /opt/wildfly/standalone/deployments/
 
 # Setting up WildFly Admin Console
-RUN echo "=> Adding WildFly administrator"
-RUN $JBOSS_HOME/bin/add-user.sh -u $WILDFLY_USER -p $WILDFLY_PASS --silent
+RUN echo "=> Adding WildFly administrator" &&  \
+    $JBOSS_HOME/bin/add-user.sh -u $WILDFLY_USER -p $WILDFLY_PASS --silent
 
 # Configure Wildfly server
 RUN echo "=> Starting WildFly server" && bash -c '$JBOSS_HOME/bin/standalone.sh &' && \
@@ -45,21 +55,21 @@ RUN echo "=> Starting WildFly server" && bash -c '$JBOSS_HOME/bin/standalone.sh 
         --use-ccm=false \
         --max-pool-size=25 \
         --blocking-timeout-wait-millis=5000 \
-        --enabled=true"
+        --enabled=true"  && \
+    $JBOSS_CLI --connect --command=:shutdown && \
+    rm -rf $JBOSS_HOME/standalone/configuration/standalone_xml_history/ $JBOSS_HOME/standalone/log/* && \
+    rm -f /tmp/*.jar
 
 ADD /build/libs/demo-1.0-SNAPSHOT.war ${JBOSS_HOME}/standalone/deployments/
-USER root
-RUN chown jboss:jboss /opt/jboss/wildfly-preview-24.0.1.Final/standalone/deployments/*
-USER jboss
-
-
-RUN echo "=> Shutting down WildFly and Cleaning up"
-#RUN $JBOSS_CLI --connect --command=":shutdown"
-RUN rm -rf $JBOSS_HOME/standalone/configuration/standalone_xml_history/ ${JBOSS_HOME}/standalone/log/*
-RUN rm -f /tmp/*.jar
 
 # Expose http and admin ports
-EXPOSE 8080 9990
+EXPOSE 8080 9990 8443 9993
 
-# boot WildFly in the standalone mode
-CMD ["/opt/jboss/wildfly-preview-24.0.1.Final/bin/standalone.sh", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]
+VOLUME $JBOSS_HOME/standalone/configuration
+VOLUME $JBOSS_HOME/standalone/data
+VOLUME $JBOSS_HOME/standalone/tmp
+VOLUME $JBOSS_HOME/standalone/log
+
+RUN ls -Ralph $JBOSS_HOME/standalone
+
+CMD ["/run.sh"]
