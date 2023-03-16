@@ -48,7 +48,7 @@
 						</div>
 					</div>
 					<button class="formBtn btn-large btn-primary" visible="@load(vm.toggleCommon)" onClick="@command('addCompany')">Добавить</button>
-					<button class="formBtn btn-large btn-secondary" visible="@load(vm.toggleCommon eq false)">Добавить</button>
+					<label class="formBtn btn-large btn-secondary" visible="@load(vm.toggleCommon eq false)">Добавить</label>
 				</div>
 				<div class="col-xs-6 col-md-5" left="30px">
 					<div visible="@load(vm.selectedCompany)">
@@ -117,8 +117,10 @@
 								</div>
 							</n:form>
 							<div visible="@load(vm.toggleEdit eq false)">
-								<button class="formBtn btn-large btn-warning" onClick="@command('editCompany')">Изменить</button>
-								<button class="formBtn btn-large btn-danger" onClick="@command('deleteCompany')">Удалить</button>
+								<button class="formBtn btn-large btn-warning" visible="@load(vm.toggleCommon)" onClick="@command('editCompany')">Изменить</button>
+								<label class="formBtn btn-large btn-secondary" visible="@load(vm.toggleCommon eq false)">Изменить</label>
+								<button class="formBtn btn-large btn-danger" visible="@load(vm.toggleCommon)" onClick="@command('deleteCompany')">Удалить</button>
+								<label class="formBtn btn-large btn-secondary" visible="@load(vm.toggleCommon eq false)">Удалить</label>
 							</div>
 							<div visible="@load(vm.toggleEdit)">
 								<button class="formBtn btn-large btn-success" onClick="@command('saveSelectedCompany')">Сохранить</button>

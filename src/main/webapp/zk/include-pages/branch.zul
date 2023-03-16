@@ -37,7 +37,7 @@
         <div visible="@load(empty vm.branches)">
             <div class="col-xs-6 col-md-5 col-md-offset-1 list-group-item" style="border: none">
                 <button class="formBtn btn-large btn-primary" visible="@load(vm.toggleCommon)" onClick="@command('addBranch')">Добавить</button>
-                <button class="formBtn btn-large btn-secondary" visible="@load(vm.toggleCommon eq false)">Добавить</button>
+                <label class="formBtn btn-large btn-secondary" visible="@load(vm.toggleCommon eq false)">Добавить</label>
             </div>
         </div>
         <div class="col-xs-6 col-md-5" left="30px">
@@ -96,8 +96,10 @@
                         </div>
                     </n:form>
                     <div visible="@load(vm.toggleEditBranch eq false)">
-                        <button class="formBtn btn-large btn-warning" onClick="@command('editBranch')">Изменить</button>
-                        <button class="formBtn btn-large btn-danger" onClick="@command('deleteBranch')">Удалить</button>
+                        <button class="formBtn btn-large btn-warning" visible="@load(vm.toggleCommon)" onClick="@command('editBranch')">Изменить</button>
+                        <label class="formBtn btn-large btn-secondary" visible="@load(vm.toggleCommon eq false)">Изменить</label>
+                        <button class="formBtn btn-large btn-danger" visible="@load(vm.toggleCommon)" onClick="@command('deleteBranch')">Удалить</button>
+                        <label class="formBtn btn-large btn-secondary" visible="@load(vm.toggleCommon eq false)">Удалить</label>
                     </div>
                     <div visible="@load(vm.toggleEditBranch)">
                         <button class="formBtn btn-large btn-success" onClick="@command('saveSelectedBranch')">Сохранить</button>
