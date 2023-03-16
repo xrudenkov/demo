@@ -4,7 +4,6 @@
 <?link rel="stylesheet" type="text/css" href="css/demo.css"?>
 
 
-
 <zk xmlns:n="native" xmlns:w="client">
 	<script type="text/javascript" src="js/cleave.min.js" />
 	<script type="text/javascript" src="js/cleave-phone.us.js" />
@@ -56,14 +55,14 @@
 						<div visible="@load(vm.toggleNew eq false)">
 							<n:form>
 								<div class="form-group row">
-									<label class="col-sm-6 col-form-label form-control-lg">Название:</label>
+									<label class="col-sm-6 col-form-label form-control-lg">Название</label>
 									<div class="col-sm-6">
 										<label id="name" class="form-control-plaintext" visible="@load(vm.toggleEdit eq false)" value="@load(vm.selectedCompany.name)"/>
 										<textbox type="text" class="form-control form-control-lg" visible="@load(vm.toggleEdit)" value="@load(vm.selectedCompany.name) @save(vm.selectedCompany.name, before='saveSelectedCompany')"/>
 									</div>
 								</div>
 								<div class="form-group row">
-									<label class="col-sm-6 col-form-label form-control-lg">Форма:</label>
+									<label class="col-sm-6 col-form-label form-control-lg">Форма</label>
 									<div class="col-sm-6">
 										<label class="form-control-plaintext" visible="@load(vm.toggleEdit eq false)" value="@load(vm.selectedCompany.legalForm)"/>
 										<combobox visible="@load(vm.toggleEdit)" model="@load(vm.legalForms)" selectedItem="@load(vm.selectedCompany.legalForm) @save(vm.selectedCompany.legalForm,before='saveSelectedCompany')" autodrop="true">
@@ -74,14 +73,14 @@
 									</div>
 								</div>
 								<div class="form-group row">
-									<label class="col-sm-6 col-form-label form-control-lg">Дата регистрации:</label>
+									<label class="col-sm-6 col-form-label form-control-lg">Дата регистрации</label>
 									<div class="col-sm-6">
 										<label class="form-control-plaintext" visible="@load(vm.toggleEdit eq false)" value="@load(vm.selectedCompany.registrationDate)"/>
 										<textbox class="form-control form-control-lg" value="@load(vm.selectedCompany.registrationDate) @save(vm.selectedCompany.registrationDate, before='saveSelectedCompany')" visible="@load(vm.toggleEdit)" w:onBind="new Cleave(this.$n(), { date: true, delimiter: '.', datePattern: ['d', 'm', 'Y'] });"/>
 									</div>
 								</div>
 								<div class="form-group row">
-									<label class="col-sm-6 col-form-label form-control-lg">Адрес:</label>
+									<label class="col-sm-6 col-form-label form-control-lg">Адрес</label>
 									<div class="col-sm-6">
 										<label class="form-control-plaintext" visible="@load(vm.toggleEdit eq false)" value="@load(vm.selectedCompany.address.getFullAddress())"/>
 									</div>
@@ -130,13 +129,13 @@
 					<div visible="@load(vm.toggleNew)">
 						<n:form>
 							<div class="form-group row">
-								<label class="col-sm-6 col-form-label form-control-lg">Название:</label>
+								<label class="col-sm-6 col-form-label form-control-lg">Название</label>
 								<div class="col-sm-6">
 									<textbox type="text" class="form-control form-control-lg" placeholder="..." value="@bind(vm.newCompany.name)"/>
 								</div>
 							</div>
 							<div class="form-group row">
-								<label class="col-sm-6 col-form-label form-control-lg">Форма:</label>
+								<label class="col-sm-6 col-form-label form-control-lg">Форма</label>
 								<div class="col-sm-6">
 									<combobox model="@load(vm.legalForms)" selectedItem="@load(vm.legalForms.get(0)) @save(vm.newCompany.legalForm,before='saveNewCompany')" autodrop="true">
 										<template name="model">
@@ -146,7 +145,7 @@
 								</div>
 							</div>
 							<div class="form-group row">
-								<label class="col-sm-6 col-form-label form-control-lg">Дата регистрации:</label>
+								<label class="col-sm-6 col-form-label form-control-lg">Дата регистрации</label>
 								<div class="col-sm-6">
 									<textbox class="form-control form-control-lg" placeholder="10.10.2010" value="@bind(vm.newCompany.registrationDate)" w:onBind="new Cleave(this.$n(), { date: true, delimiter: '.', datePattern: ['d', 'm', 'Y'] });"/>
 								</div>
@@ -190,7 +189,7 @@
 					</div>
 				</div>
 			</vlayout>
-			<include src="branch.zul"/>
+			<include src="include-pages/branch.zul"/>
 		</div>
 	</window>
 </zk>

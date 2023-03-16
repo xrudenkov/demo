@@ -11,7 +11,7 @@ CREATE TABLE ADDRESS(
 CREATE TABLE COMPANY(
     ID BIGINT AUTO_INCREMENT NOT NULL COMMENT 'Идентификатор',
     NAME VARCHAR(100) UNIQUE NOT NULL COMMENT 'Название компании',
-    LEGAL_FORM TINYINT(1) NOT NULL COMMENT 'Форма компании: 0 - ООО, 1 - ИП, 2 - ИП',
+    LEGAL_FORM TINYINT(1) NOT NULL COMMENT 'Форма компании: 0 - ООО, 1 - ИП, 2 - АО',
     REGISTRATION_DATE DATE NOT NULL COMMENT 'Дата регистрации компании',
     ADDRESS_ID BIGINT NOT NULL,
     PRIMARY KEY (ID),

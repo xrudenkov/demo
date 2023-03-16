@@ -67,7 +67,7 @@ public class ValidatorModel {
                     errorMsg += "Указана дата больше текущей";
                 }
             } catch (ParseException e) {
-                errorMsg += "Формат даты не верный";
+                errorMsg += "Неверный формат даты";
             }
         }
         return errorMsg;

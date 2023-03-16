@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: "002"
+      author: "v.rudenko"
+      changes:
+        - sqlFile:
+            path: liquibase/changesets/002_filling/ddl.sql
+        - sqlFile:
+            path: liquibase/changesets/002_filling/dcl.sql
+        - sqlFile:
+            path: liquibase/changesets/002_filling/dml.sql
+      rollback:
+        - sqlFile:
+            path: liquibase/changesets/002_filling/rollback.sql

@@ -45,21 +45,21 @@
                 <div visible="@load(vm.toggleNewBranch eq false)">
                     <n:form>
                         <div class="form-group row">
-                            <label class="col-sm-6 col-form-label form-control-lg">Название:</label>
+                            <label class="col-sm-6 col-form-label form-control-lg">Название</label>
                             <div class="col-sm-6">
                                 <label id="name" class="form-control-plaintext" visible="@load(vm.toggleEditBranch eq false)" value="@load(vm.selectedBranch.name)"/>
                                 <textbox type="text" class="form-control form-control-lg" visible="@load(vm.toggleEditBranch)" value="@load(vm.selectedBranch.name) @save(vm.selectedBranch.name,before='saveSelectedBranch')"/>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-sm-6 col-form-label form-control-lg">Дата регистрации:</label>
+                            <label class="col-sm-6 col-form-label form-control-lg">Дата регистрации</label>
                             <div class="col-sm-6">
                                 <label class="form-control-plaintext" visible="@load(vm.toggleEditBranch eq false)" value="@load(vm.selectedBranch.registrationDate)"/>
                                 <textbox class="form-control form-control-lg" value="@load(vm.selectedBranch.registrationDate) @save(vm.selectedBranch.registrationDate,before='saveSelectedBranch')" visible="@load(vm.toggleEditBranch)" w:onBind="new Cleave(this.$n(), { date: true, delimiter: '.', datePattern: ['d', 'm', 'Y'] });"/>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-sm-6 col-form-label form-control-lg">Адрес:</label>
+                            <label class="col-sm-6 col-form-label form-control-lg">Адрес</label>
                             <div class="col-sm-6">
                                 <label class="form-control-plaintext" visible="@load(vm.toggleEditBranch eq false)" value="@load(vm.selectedBranch.address.getFullAddress())"/>
                             </div>
@@ -108,19 +108,19 @@
             <div visible="@load(vm.toggleNewBranch)">
                 <n:form>
                     <div class="form-group row">
-                        <label class="col-sm-6 col-form-label form-control-lg">Название:</label>
+                        <label class="col-sm-6 col-form-label form-control-lg">Название</label>
                         <div class="col-sm-6">
                             <textbox type="text" class="form-control form-control-lg" placeholder="..." value="@bind(vm.newBranch.name)"/>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-6 col-form-label form-control-lg">Дата регистрации:</label>
+                        <label class="col-sm-6 col-form-label form-control-lg">Дата регистрации</label>
                         <div class="col-sm-6">
                             <textbox class="form-control form-control-lg" placeholder="10.10.2010" value="@bind(vm.newBranch.registrationDate)" w:onBind="new Cleave(this.$n(), { date: true, delimiter: '.', datePattern: ['d', 'm', 'Y'] });"/>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-6 col-form-label form-control-lg">Адрес:</label>
+                        <label class="col-sm-6 col-form-label form-control-lg">Адрес</label>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-6 col-form-label form-control-lg" value="Индекс" />
