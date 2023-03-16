@@ -7,7 +7,6 @@ import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
-import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.cdi.DelegatingVariableResolver;
@@ -19,6 +18,7 @@ import ru.task.demo.model.CompanyModel;
 import ru.task.demo.model.LegalFormEnum;
 import ru.task.demo.service.BranchService;
 import ru.task.demo.service.CompanyService;
+import ru.task.demo.util.ValidatorModel;
 
 @VariableResolver(DelegatingVariableResolver.class)
 public class DemoVM {
@@ -45,15 +45,13 @@ public class DemoVM {
     }
 
     @Command
-    @NotifyChange({"selectedCompany", "branches", "toggleEdit", "toggleNew", "toggleEditBranch", "toggleNewBranch", "selectedBranch"})
-    public void selectCompany(@BindingParam("id") Integer id, @BindingParam("evt") Event evt) {
-        selectedCompany = companies.get(id);
-        branches = new ListModelList<>(selectedCompany.getBranches());
-        toggleEdit = false;
-        toggleNew = false;
-        toggleEditBranch = false;
-        toggleNewBranch = false;
-        selectedBranch = null;
+    @NotifyChange({"selectedCompany", "branches", "selectedBranch"})
+    public void selectCompany(@BindingParam("id") Integer id) {
+        if (!(toggleNew || toggleEdit || toggleEditBranch || toggleNewBranch)) {
+            selectedCompany = companies.get(id);
+            branches = new ListModelList<>(selectedCompany.getBranches());
+            selectedBranch = null;
+        }
     }
 
     @Command
@@ -75,45 +73,34 @@ public class DemoVM {
     }
 
     @Command
-    @NotifyChange({"toggleEdit", "toggleNew", "toggleCommon", "selectedCompany", "newCompany", "companies",
-            "selectedBranch", "newBranch", "branches", "toggleEditBranch", "toggleNewBranch"})
-    public void saveCompany() {
-        if (toggleEdit) {
-            checkDuplicateCompanyName(selectedCompany, false);
-            companyService.update(selectedCompany);
-            toggleEdit = false;
-        }
-        if (toggleNew) {
-            checkDuplicateCompanyName(newCompany, true);
-            companyService.create(newCompany);
-            companies.add(newCompany);
-            toggleNew = false;
-            selectedCompany = newCompany;
-            newCompany = new CompanyModel();
-        }
+    @NotifyChange({"toggleEdit", "toggleCommon", "selectedCompany", "companies"})
+    public void saveSelectedCompany() {
+        ValidatorModel.validate(selectedCompany);
+        checkDuplicateCompanyName(selectedCompany, false);
+        companyService.update(selectedCompany);
+        toggleEdit = false;
     }
 
     @Command
-    @NotifyChange({"selectedCompany", "companies", "selectedBranch", "branches"})
+    @NotifyChange({"toggleNew", "toggleCommon", "selectedCompany", "newCompany", "companies"})
+    public void saveNewCompany() {
+        ValidatorModel.validate(newCompany);
+        checkDuplicateCompanyName(newCompany, true);
+        companyService.create(newCompany);
+        toggleNew = false;
+        selectedCompany = newCompany;
+        companies.add(selectedCompany);
+        newCompany = new CompanyModel();
+    }
+
+    @Command
+    @NotifyChange({"selectedCompany", "companies", "selectedBranch", "branches", "toggleEdit", "toggleNew", "toggleEditBranch", "toggleNewBranch", "toggleCommon"})
     public void deleteCompany() {
         companyService.delete(selectedCompany);
         companies.remove(selectedCompany);
         branches = null;
         selectedCompany = null;
         selectedBranch = null;
-    }
-
-    @Command
-    @NotifyChange({"toggleEdit", "toggleNew", "toggleCommon"})
-    public void cancelCompany() {
-        toggleEdit = false;
-        toggleNew = false;
-    }
-
-    @Command
-    @NotifyChange({"selectedBranch", "branches", "toggleEdit", "toggleNew", "toggleEditBranch", "toggleNewBranch"})
-    public void selectBranch(@BindingParam("id") Integer id, @BindingParam("evt") Event evt) {
-        selectedBranch = branches.get(id);
         toggleEdit = false;
         toggleNew = false;
         toggleEditBranch = false;
@@ -121,7 +108,15 @@ public class DemoVM {
     }
 
     @Command
-    @NotifyChange({"toggleNew", "toggleNew", "toggleCommon", "toggleEditBranch", "toggleNewBranch"})
+    @NotifyChange({"selectedBranch", "branches", "toggleEdit", "toggleNew", "toggleEditBranch", "toggleNewBranch"})
+    public void selectBranch(@BindingParam("id") Integer id) {
+        if (!(toggleNew || toggleEdit || toggleEditBranch || toggleNewBranch)) {
+            selectedBranch = branches.get(id);
+        }
+    }
+
+    @Command
+    @NotifyChange({"toggleNew", "toggleNew", "toggleEditBranch", "toggleNewBranch", "toggleCommon"})
     public void addBranch() {
         toggleNew = false;
         toggleEdit = false;
@@ -130,7 +125,7 @@ public class DemoVM {
     }
 
     @Command
-    @NotifyChange({"toggleEdit", "toggleNew", "toggleCommon", "toggleNewBranch", "toggleEditBranch"})
+    @NotifyChange({"toggleEdit", "toggleNew", "toggleNewBranch", "toggleEditBranch", "toggleCommon"})
     public void editBranch() {
         toggleNew = false;
         toggleEdit = false;
@@ -139,26 +134,26 @@ public class DemoVM {
     }
 
     @Command
-    @NotifyChange({"toggleEdit", "toggleNew", "toggleCommon", "selectedBranch", "newCompany", "companies",
-            "selectedBranch", "newBranch", "branches", "toggleEditBranch", "toggleNewBranch"
-    })
-    public void saveBranch() {
-        if (toggleEditBranch) {
-            checkDuplicateBranchName(selectedBranch, false);
-            branchService.update(selectedBranch);
-            toggleEditBranch = false;
-        }
-        if (toggleNewBranch) {
-            checkDuplicateBranchName(newBranch, true);
-            newBranch.setCompanyId(selectedCompany.getId());
-            branchService.create(newBranch);
-            branches.add(newBranch);
-            toggleNewBranch = false;
-            selectedBranch = newBranch;
-            newBranch = new BranchModel();
-        }
+    @NotifyChange({"selectedBranch", "branches", "toggleCommon", "toggleEditBranch"})
+    public void saveSelectedBranch() {
+        ValidatorModel.validate(selectedBranch);
+        checkDuplicateBranchName(selectedBranch, false);
+        branchService.update(selectedBranch);
+        toggleEditBranch = false;
     }
 
+    @Command
+    @NotifyChange({"toggleCommon", "selectedBranch", "newBranch", "branches", "toggleNewBranch"})
+    public void saveNewBranch() {
+        ValidatorModel.validate(newBranch);
+        checkDuplicateBranchName(newBranch, true);
+        newBranch.setCompanyId(selectedCompany.getId());
+        branchService.create(newBranch);
+        branches.add(newBranch);
+        toggleNewBranch = false;
+        selectedBranch = newBranch;
+        newBranch = new BranchModel();
+    }
     @Command
     @NotifyChange({"selectedCompany",  "companies", "selectedBranch", "branches"})
     public void deleteBranch() {
@@ -169,8 +164,10 @@ public class DemoVM {
     }
 
     @Command
-    @NotifyChange({"toggleEditBranch", "toggleNewBranch", "toggleCommon"})
-    public void cancelBranch() {
+    @NotifyChange({"toggleEdit", "toggleNew", "toggleEditBranch", "toggleNewBranch", "toggleCommon"})
+    public void cancel() {
+        toggleEdit = false;
+        toggleNew = false;
         toggleEditBranch = false;
         toggleNewBranch = false;
     }
@@ -215,8 +212,8 @@ public class DemoVM {
         return selectedCompany;
     }
 
-    public void setSelectedCompany(CompanyModel selected) {
-        this.selectedCompany = selected;
+    public void setSelectedCompany(CompanyModel selectedCompany) {
+        this.selectedCompany = selectedCompany;
     }
 
     public boolean isToggleEdit() {

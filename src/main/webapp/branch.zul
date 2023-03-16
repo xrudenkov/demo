@@ -30,12 +30,14 @@
                     </div>
                 </div>
                 <button class="formBtn btn-large btn-primary" visible="@load(vm.toggleCommon)" onClick="@command('addBranch')">Добавить</button>
+                <button class="formBtn btn-large btn-secondary" visible="@load(vm.toggleCommon eq false)">Добавить</button>
             </div>
         </div>
         <div visible="@load(empty vm.branches)" class="heading"><n:h2>Список филиалов компании пуст</n:h2></div>
         <div visible="@load(empty vm.branches)">
             <div class="col-xs-6 col-md-5 col-md-offset-1 list-group-item" style="border: none">
                 <button class="formBtn btn-large btn-primary" visible="@load(vm.toggleCommon)" onClick="@command('addBranch')">Добавить</button>
+                <button class="formBtn btn-large btn-secondary" visible="@load(vm.toggleCommon eq false)">Добавить</button>
             </div>
         </div>
         <div class="col-xs-6 col-md-5" left="30px">
@@ -46,14 +48,14 @@
                             <label class="col-sm-6 col-form-label form-control-lg">Название:</label>
                             <div class="col-sm-6">
                                 <label id="name" class="form-control-plaintext" visible="@load(vm.toggleEditBranch eq false)" value="@load(vm.selectedBranch.name)"/>
-                                <textbox type="text" class="form-control form-control-lg" visible="@load(vm.toggleEditBranch)" value="@load(vm.selectedBranch.name) @save(vm.selectedBranch.name,before='saveBranch')" constraint="no empty" errorMessage="Обязательно поле"/>
+                                <textbox type="text" class="form-control form-control-lg" visible="@load(vm.toggleEditBranch)" value="@load(vm.selectedBranch.name) @save(vm.selectedBranch.name,before='saveSelectedBranch')"/>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-6 col-form-label form-control-lg">Дата регистрации:</label>
                             <div class="col-sm-6">
                                 <label class="form-control-plaintext" visible="@load(vm.toggleEditBranch eq false)" value="@load(vm.selectedBranch.registrationDate)"/>
-                                <textbox class="form-control form-control-lg" value="@load(vm.selectedBranch.registrationDate) @save(vm.selectedBranch.registrationDate,before='saveBranch')" visible="@load(vm.toggleEditBranch)" constraint="no empty" errorMessage="Обязательно поле" w:onBind="new Cleave(this.$n(), { date: true, delimiter: '.', datePattern: ['d', 'm', 'Y'] });"/>
+                                <textbox class="form-control form-control-lg" value="@load(vm.selectedBranch.registrationDate) @save(vm.selectedBranch.registrationDate,before='saveSelectedBranch')" visible="@load(vm.toggleEditBranch)" w:onBind="new Cleave(this.$n(), { date: true, delimiter: '.', datePattern: ['d', 'm', 'Y'] });"/>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -65,31 +67,31 @@
                         <div class="form-group row" visible="@load(vm.toggleEditBranch)">
                             <label class="col-sm-6 col-form-label form-control-lg" value="Индекс" />
                             <div class="col-sm-6">
-                                <textbox class="form-control form-control-lg" value="@load(vm.selectedBranch.address.postcode) @save(vm.selectedBranch.address.postcode,before='save')" constraint="/[0-9]{6}" errorMessage="Значение должно состоять из 6 цифр"/>
+                                <textbox class="form-control form-control-lg" value="@load(vm.selectedBranch.address.postcode) @save(vm.selectedBranch.address.postcode,before='saveSelectedBranch')"/>
                             </div>
                         </div>
                         <div class="form-group row" visible="@load(vm.toggleEditBranch)">
                             <label class="col-sm-6 col-form-label form-control-lg" value="Город*" />
                             <div class="col-sm-6">
-                                <textbox class="form-control form-control-lg" value="@load(vm.selectedBranch.address.city) @save(vm.selectedBranch.address.city,before='saveBranch')" constraint="no empty" errorMessage="Обязательно поле"/>
+                                <textbox class="form-control form-control-lg" value="@load(vm.selectedBranch.address.city) @save(vm.selectedBranch.address.city,before='saveSelectedBranch')"/>
                             </div>
                         </div>
                         <div class="form-group row" visible="@load(vm.toggleEditBranch)">
                             <label class="col-sm-6 col-form-label form-control-lg" value="Улица*" />
                             <div class="col-sm-6">
-                                <textbox class="form-control form-control-lg" value="@load(vm.selectedBranch.address.street) @save(vm.selectedBranch.address.street,before='saveBranch')" constraint="no empty" errorMessage="Обязательно поле"/>
+                                <textbox class="form-control form-control-lg" value="@load(vm.selectedBranch.address.street) @save(vm.selectedBranch.address.street,before='saveSelectedBranch')"/>
                             </div>
                         </div>
                         <div class="form-group row" visible="@load(vm.toggleEditBranch)">
                             <label class="col-sm-6 col-form-label form-control-lg" value="Дом*" />
                             <div class="col-sm-6">
-                                <textbox class="form-control form-control-lg" value="@load(vm.selectedBranch.address.house) @save(vm.selectedBranch.address.house,before='saveBranch')" constraint="no empty" errorMessage="Обязательно поле"/>
+                                <textbox class="form-control form-control-lg" value="@load(vm.selectedBranch.address.house) @save(vm.selectedBranch.address.house,before='saveSelectedBranch')"/>
                             </div>
                         </div>
                         <div class="form-group row" visible="@load(vm.toggleEditBranch)">
                             <label class="col-sm-6 col-form-label form-control-lg" value="Квартира" />
                             <div class="col-sm-6">
-                                <textbox class="form-control form-control-lg" value="@load(vm.selectedBranch.address.apartment) @save(vm.selectedBranch.address.apartment,before='saveBranch')" />
+                                <textbox class="form-control form-control-lg" value="@load(vm.selectedBranch.address.apartment) @save(vm.selectedBranch.address.apartment,before='saveSelectedBranch')" />
                             </div>
                         </div>
                     </n:form>
@@ -98,8 +100,8 @@
                         <button class="formBtn btn-large btn-danger" onClick="@command('deleteBranch')">Удалить</button>
                     </div>
                     <div visible="@load(vm.toggleEditBranch)">
-                        <button class="formBtn btn-large btn-success" onClick="@command('saveBranch')">Сохранить</button>
-                        <button class="formBtn btn-large btn-danger" onClick="@command('cancelBranch')">Отмена</button>
+                        <button class="formBtn btn-large btn-success" onClick="@command('saveSelectedBranch')">Сохранить</button>
+                        <button class="formBtn btn-large btn-danger" onClick="@command('cancel')">Отмена</button>
                     </div>
                 </div>
             </div>
@@ -108,13 +110,13 @@
                     <div class="form-group row">
                         <label class="col-sm-6 col-form-label form-control-lg">Название:</label>
                         <div class="col-sm-6">
-                            <textbox type="text" class="form-control form-control-lg" placeholder="..." value="@save(vm.newBranch.name,before='saveBranch')" constraint="no empty"/>
+                            <textbox type="text" class="form-control form-control-lg" placeholder="..." value="@bind(vm.newBranch.name)"/>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-6 col-form-label form-control-lg">Дата регистрации:</label>
                         <div class="col-sm-6">
-                            <textbox class="form-control form-control-lg" placeholder="10.10.2010" value="@save(vm.newBranch.registrationDate,before='saveBranch')" constraint="no empty" w:onBind="new Cleave(this.$n(), { date: true, delimiter: '.', datePattern: ['d', 'm', 'Y'] });"/>
+                            <textbox class="form-control form-control-lg" placeholder="10.10.2010" value="@bind(vm.newBranch.registrationDate)" w:onBind="new Cleave(this.$n(), { date: true, delimiter: '.', datePattern: ['d', 'm', 'Y'] });"/>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -123,36 +125,36 @@
                     <div class="form-group row">
                         <label class="col-sm-6 col-form-label form-control-lg" value="Индекс" />
                         <div class="col-sm-6">
-                            <textbox class="form-control form-control-lg" placeholder="000000" value="@save(vm.newBranch.address.postcode,before='saveBranch')" constraint="/[0-9]{6}"/>
+                            <textbox class="form-control form-control-lg" placeholder="000000" value="@bind(vm.newBranch.address.postcode)"/>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-6 col-form-label form-control-lg" value="Город*" />
                         <div class="col-sm-6">
-                            <textbox class="form-control form-control-lg" placeholder="..." value="@save(vm.newBranch.address.city,before='saveBranch')" constraint="no empty"/>
+                            <textbox class="form-control form-control-lg" placeholder="..." value="@bind(vm.newBranch.address.city)"/>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-6 col-form-label form-control-lg" value="Улица*" />
                         <div class="col-sm-6">
-                            <textbox class="form-control form-control-lg" placeholder="..." value="@save(vm.newBranch.address.street,before='saveBranch')" constraint="no empty"/>
+                            <textbox class="form-control form-control-lg" placeholder="..." value="@bind(vm.newBranch.address.street)"/>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-6 col-form-label form-control-lg" value="Дом*" />
                         <div class="col-sm-6">
-                            <textbox class="form-control form-control-lg" placeholder="..." value="@save(vm.newBranch.address.house,before='saveBranch')" constraint="no empty"/>
+                            <textbox class="form-control form-control-lg" placeholder="..." value="@bind(vm.newBranch.address.house)"/>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-6 col-form-label form-control-lg" value="Квартира" />
                         <div class="col-sm-6">
-                            <textbox class="form-control form-control-lg" placeholder="..." value="@save(vm.newBranch.address.apartment,before='saveBranch')" />
+                            <textbox class="form-control form-control-lg" placeholder="..." value="@bind(vm.newBranch.address.apartment)"/>
                         </div>
                     </div>
                 </n:form>
-                <button class="formBtn btn-large btn-success" onClick="@command('saveBranch')">Сохранить</button>
-                <button class="formBtn btn-large btn-danger" onClick="@command('cancelBranch')">Отмена</button>
+                <button class="formBtn btn-large btn-success" onClick="@command('saveNewBranch')">Сохранить</button>
+                <button class="formBtn btn-large btn-danger" onClick="@command('cancel')">Отмена</button>
             </div>
         </div>
     </vlayout>

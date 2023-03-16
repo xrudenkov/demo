@@ -15,10 +15,10 @@ public class AddressModel {
 
     public String getFullAddress() {
         String fullAddress = "г. " + city + ", ул. " + street + ", д. " + house;
-        if (postcode != null) {
+        if (postcode != null && !postcode.isBlank()) {
             fullAddress = postcode + ", " + fullAddress;
         }
-        if (apartment != null) {
+        if (apartment != null && !apartment.isBlank()) {
             fullAddress += "/" +apartment;
         }
         return fullAddress;

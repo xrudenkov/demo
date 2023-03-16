@@ -49,6 +49,7 @@
 						</div>
 					</div>
 					<button class="formBtn btn-large btn-primary" visible="@load(vm.toggleCommon)" onClick="@command('addCompany')">Добавить</button>
+					<button class="formBtn btn-large btn-secondary" visible="@load(vm.toggleCommon eq false)">Добавить</button>
 				</div>
 				<div class="col-xs-6 col-md-5" left="30px">
 					<div visible="@load(vm.selectedCompany)">
@@ -58,14 +59,14 @@
 									<label class="col-sm-6 col-form-label form-control-lg">Название:</label>
 									<div class="col-sm-6">
 										<label id="name" class="form-control-plaintext" visible="@load(vm.toggleEdit eq false)" value="@load(vm.selectedCompany.name)"/>
-										<textbox type="text" class="form-control form-control-lg" visible="@load(vm.toggleEdit)" value="@load(vm.selectedCompany.name) @save(vm.selectedCompany.name,before='saveCompany')" constraint="no empty" errorMessage="Обязательно поле"/>
+										<textbox type="text" class="form-control form-control-lg" visible="@load(vm.toggleEdit)" value="@load(vm.selectedCompany.name) @save(vm.selectedCompany.name, before='saveSelectedCompany')"/>
 									</div>
 								</div>
 								<div class="form-group row">
 									<label class="col-sm-6 col-form-label form-control-lg">Форма:</label>
 									<div class="col-sm-6">
 										<label class="form-control-plaintext" visible="@load(vm.toggleEdit eq false)" value="@load(vm.selectedCompany.legalForm)"/>
-										<combobox visible="@load(vm.toggleEdit)" model="@load(vm.legalForms)" selectedItem="@load(vm.selectedCompany.legalForm) @save(vm.selectedCompany.legalForm,before='saveCompany')" autodrop="true" constraint="no empty" errorMessage="Обязательно поле">
+										<combobox visible="@load(vm.toggleEdit)" model="@load(vm.legalForms)" selectedItem="@load(vm.selectedCompany.legalForm) @save(vm.selectedCompany.legalForm,before='saveSelectedCompany')" autodrop="true">
 											<template name="model">
 												<comboitem label="${each}" value="${each}"/>
 											</template>
@@ -76,7 +77,7 @@
 									<label class="col-sm-6 col-form-label form-control-lg">Дата регистрации:</label>
 									<div class="col-sm-6">
 										<label class="form-control-plaintext" visible="@load(vm.toggleEdit eq false)" value="@load(vm.selectedCompany.registrationDate)"/>
-										<textbox class="form-control form-control-lg" value="@load(vm.selectedCompany.registrationDate) @save(vm.selectedCompany.registrationDate,before='saveCompany')" visible="@load(vm.toggleEdit)" constraint="no empty" errorMessage="Обязательно поле" w:onBind="new Cleave(this.$n(), { date: true, delimiter: '.', datePattern: ['d', 'm', 'Y'] });"/>
+										<textbox class="form-control form-control-lg" value="@load(vm.selectedCompany.registrationDate) @save(vm.selectedCompany.registrationDate, before='saveSelectedCompany')" visible="@load(vm.toggleEdit)" w:onBind="new Cleave(this.$n(), { date: true, delimiter: '.', datePattern: ['d', 'm', 'Y'] });"/>
 									</div>
 								</div>
 								<div class="form-group row">
@@ -88,31 +89,31 @@
 								<div class="form-group row" visible="@load(vm.toggleEdit)">
 									<label class="col-sm-6 col-form-label form-control-lg" value="Индекс" />
 									<div class="col-sm-6">
-										<textbox class="form-control form-control-lg" value="@load(vm.selectedCompany.address.postcode) @save(vm.selectedCompany.address.postcode,before='save')" constraint="/[0-9]{6}" errorMessage="Значение должно состоять из 6 цифр"/>
+										<textbox class="form-control form-control-lg" value="@load(vm.selectedCompany.address.postcode) @save(vm.selectedCompany.address.postcode,before='saveSelectedCompany')"/>
 									</div>
 								</div>
 								<div class="form-group row" visible="@load(vm.toggleEdit)">
 									<label class="col-sm-6 col-form-label form-control-lg" value="Город*" />
 									<div class="col-sm-6">
-										<textbox class="form-control form-control-lg" value="@load(vm.selectedCompany.address.city) @save(vm.selectedCompany.address.city,before='saveCompany')" constraint="no empty" errorMessage="Обязательно поле"/>
+										<textbox class="form-control form-control-lg" value="@load(vm.selectedCompany.address.city) @save(vm.selectedCompany.address.city,before='saveSelectedCompany')"/>
 									</div>
 								</div>
 								<div class="form-group row" visible="@load(vm.toggleEdit)">
 									<label class="col-sm-6 col-form-label form-control-lg" value="Улица*" />
 									<div class="col-sm-6">
-										<textbox class="form-control form-control-lg" value="@load(vm.selectedCompany.address.street) @save(vm.selectedCompany.address.street,before='saveCompany')" constraint="no empty" errorMessage="Обязательно поле"/>
+										<textbox class="form-control form-control-lg" value="@load(vm.selectedCompany.address.street) @save(vm.selectedCompany.address.street,before='saveSelectedCompany')"/>
 									</div>
 								</div>
 								<div class="form-group row" visible="@load(vm.toggleEdit)">
 									<label class="col-sm-6 col-form-label form-control-lg" value="Дом*" />
 									<div class="col-sm-6">
-										<textbox class="form-control form-control-lg" value="@load(vm.selectedCompany.address.house) @save(vm.selectedCompany.address.house,before='saveCompany')" constraint="no empty" errorMessage="Обязательно поле"/>
+										<textbox class="form-control form-control-lg" value="@load(vm.selectedCompany.address.house) @save(vm.selectedCompany.address.house,before='saveSelectedCompany')"/>
 									</div>
 								</div>
 								<div class="form-group row" visible="@load(vm.toggleEdit)">
 									<label class="col-sm-6 col-form-label form-control-lg" value="Квартира" />
 									<div class="col-sm-6">
-										<textbox class="form-control form-control-lg" value="@load(vm.selectedCompany.address.apartment) @save(vm.selectedCompany.address.apartment,before='saveCompany')" />
+										<textbox class="form-control form-control-lg" value="@load(vm.selectedCompany.address.apartment) @save(vm.selectedCompany.address.apartment,before='saveSelectedCompany')" />
 									</div>
 								</div>
 							</n:form>
@@ -121,8 +122,8 @@
 								<button class="formBtn btn-large btn-danger" onClick="@command('deleteCompany')">Удалить</button>
 							</div>
 							<div visible="@load(vm.toggleEdit)">
-								<button class="formBtn btn-large btn-success" onClick="@command('saveCompany')">Сохранить</button>
-								<button class="formBtn btn-large btn-danger" onClick="@command('cancelCompany')">Отмена</button>
+								<button class="formBtn btn-large btn-success" onClick="@command('saveSelectedCompany')">Сохранить</button>
+								<button class="formBtn btn-large btn-danger" onClick="@command('cancel')">Отмена</button>
 							</div>
 						</div>
 					</div>
@@ -131,13 +132,13 @@
 							<div class="form-group row">
 								<label class="col-sm-6 col-form-label form-control-lg">Название:</label>
 								<div class="col-sm-6">
-									<textbox type="text" class="form-control form-control-lg" placeholder="..." value="@save(vm.newCompany.name,before='saveCompany')" constraint="no empty"/>
+									<textbox type="text" class="form-control form-control-lg" placeholder="..." value="@bind(vm.newCompany.name)"/>
 								</div>
 							</div>
 							<div class="form-group row">
 								<label class="col-sm-6 col-form-label form-control-lg">Форма:</label>
 								<div class="col-sm-6">
-									<combobox model="@load(vm.legalForms)" selectedItem="@load(vm.legalForms.get(0)) @save(vm.newCompany.legalForm,before='saveCompany')" autodrop="true" constraint="no empty">
+									<combobox model="@load(vm.legalForms)" selectedItem="@load(vm.legalForms.get(0)) @save(vm.newCompany.legalForm,before='saveNewCompany')" autodrop="true">
 										<template name="model">
 											<comboitem label="${each}" value="${each}"/>
 										</template>
@@ -147,7 +148,7 @@
 							<div class="form-group row">
 								<label class="col-sm-6 col-form-label form-control-lg">Дата регистрации:</label>
 								<div class="col-sm-6">
-									<textbox class="form-control form-control-lg" placeholder="10.10.2010" value="@save(vm.newCompany.registrationDate,before='saveCompany')" constraint="no empty" w:onBind="new Cleave(this.$n(), { date: true, delimiter: '.', datePattern: ['d', 'm', 'Y'] });"/>
+									<textbox class="form-control form-control-lg" placeholder="10.10.2010" value="@bind(vm.newCompany.registrationDate)" w:onBind="new Cleave(this.$n(), { date: true, delimiter: '.', datePattern: ['d', 'm', 'Y'] });"/>
 								</div>
 							</div>
 							<div class="form-group row">
@@ -156,36 +157,36 @@
 							<div class="form-group row">
 								<label class="col-sm-6 col-form-label form-control-lg" value="Индекс" />
 								<div class="col-sm-6">
-									<textbox class="form-control form-control-lg" placeholder="000000" value="@save(vm.newCompany.address.postcode,before='saveCompany')" constraint="/[0-9]{6}"/>
+									<textbox class="form-control form-control-lg" placeholder="000000" value="@bind(vm.newCompany.address.postcode)"/>
 								</div>
 							</div>
 							<div class="form-group row">
 								<label class="col-sm-6 col-form-label form-control-lg" value="Город*" />
 								<div class="col-sm-6">
-									<textbox class="form-control form-control-lg" placeholder="..." value="@save(vm.newCompany.address.city,before='saveCompany')" constraint="no empty"/>
+									<textbox class="form-control form-control-lg" placeholder="..." value="@bind(vm.newCompany.address.city)"/>
 								</div>
 							</div>
 							<div class="form-group row">
 								<label class="col-sm-6 col-form-label form-control-lg" value="Улица*" />
 								<div class="col-sm-6">
-									<textbox class="form-control form-control-lg" placeholder="..." value="@save(vm.newCompany.address.street,before='saveCompany')" constraint="no empty"/>
+									<textbox class="form-control form-control-lg" placeholder="..." value="@bind(vm.newCompany.address.street)"/>
 								</div>
 							</div>
 							<div class="form-group row">
 								<label class="col-sm-6 col-form-label form-control-lg" value="Дом*" />
 								<div class="col-sm-6">
-									<textbox class="form-control form-control-lg" placeholder="..." value="@save(vm.newCompany.address.house,before='saveCompany')" constraint="no empty"/>
+									<textbox class="form-control form-control-lg" placeholder="..." value="@bind(vm.newCompany.address.house)"/>
 								</div>
 							</div>
 							<div class="form-group row">
 								<label class="col-sm-6 col-form-label form-control-lg" value="Квартира" />
 								<div class="col-sm-6">
-									<textbox class="form-control form-control-lg" placeholder="..." value="@save(vm.newCompany.address.apartment,before='saveCompany')" />
+									<textbox class="form-control form-control-lg" placeholder="..." value="@bind(vm.newCompany.address.apartment)" />
 								</div>
 							</div>
 						</n:form>
-						<button class="formBtn btn-large btn-success" onClick="@command('saveCompany')">Сохранить</button>
-						<button class="formBtn btn-large btn-danger" onClick="@command('cancelCompany')">Отмена</button>
+						<button class="formBtn btn-large btn-success" onClick="@command('saveNewCompany')">Сохранить</button>
+						<button class="formBtn btn-large btn-danger" onClick="@command('cancel')">Отмена</button>
 					</div>
 				</div>
 			</vlayout>
