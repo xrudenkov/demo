@@ -1,8 +1,8 @@
-# demo #
+# demo project #
 
-#### What is this repository for? ####
+#### technology stack ####
 
-This software is for doing some things
+ZK CE + Wildfly + Jakarta EE9.1 + Hibernate + Liquibase + Gradle + Docker
 
 #### How do I get set up? ####
 ```
