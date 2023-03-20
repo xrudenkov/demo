@@ -11,16 +11,16 @@ import ru.task.demo.model.AddressModel;
 public class AddressDaoImpl implements AddressDao {
 
     @Inject
-    private EntityManager entityManager;
+    private EntityManager em;
 
     @Override
     public Address getById(Long id) {
-        return entityManager.find(Address.class, id);
+        return em.find(Address.class, id);
     }
 
     @Override
     public void insert(Address address) {
-        entityManager.persist(address);
+        em.persist(address);
     }
 
     @Override
@@ -38,6 +38,6 @@ public class AddressDaoImpl implements AddressDao {
 
     @Override
     public void remove(Long id) {
-        entityManager.remove(getById(id));
+        em.remove(getById(id));
     }
 }

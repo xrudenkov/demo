@@ -4,6 +4,7 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.inject.Singleton;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
 import ru.task.demo.dao.AddressDao;
 import ru.task.demo.dao.BranchDao;
 import ru.task.demo.dao.CompanyDao;
@@ -28,6 +29,9 @@ public class BranchServiceImpl implements BranchService {
     @Inject
     private BranchMapper branchMapper;
 
+    @Inject
+    private Logger logger;
+
     @Override
     @Transactional
     public void create(BranchModel branchModel) {
@@ -38,6 +42,7 @@ public class BranchServiceImpl implements BranchService {
         branchDao.insert(branch);
         branchModel.setId(branch.getId());
         branchModel.getAddress().setId(branch.getAddress().getId());
+        logger.info("Created branch: " + branchModel);
     }
 
     @Override
@@ -45,6 +50,7 @@ public class BranchServiceImpl implements BranchService {
     public void update(BranchModel branchModel) {
         branchDao.update(branchModel);
         addressDao.update(branchModel.getAddress());
+        logger.info("Updated branch: " + branchModel);
     }
 
     @Override
@@ -52,5 +58,6 @@ public class BranchServiceImpl implements BranchService {
     public void delete(BranchModel branchModel) {
         branchDao.remove(branchModel.getId());
         addressDao.remove(branchModel.getAddress().getId());
+        logger.info("Removed branch: " + branchModel);
     }
 }

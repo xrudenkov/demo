@@ -5,6 +5,7 @@ import jakarta.inject.Named;
 import jakarta.inject.Singleton;
 import jakarta.transaction.Transactional;
 import java.util.List;
+import org.slf4j.Logger;
 import ru.task.demo.dao.AddressDao;
 import ru.task.demo.dao.BranchDao;
 import ru.task.demo.dao.CompanyDao;
@@ -28,6 +29,9 @@ public class CompanyServiceImpl implements CompanyService {
     @Inject
     private CompanyMapper companyMapper;
 
+    @Inject
+    private Logger logger;
+
     @Override
     @Transactional
     public void create(CompanyModel companyModel) {
@@ -36,6 +40,7 @@ public class CompanyServiceImpl implements CompanyService {
         companyDao.insert(company);
         companyModel.setId(company.getId());
         companyModel.getAddress().setId(company.getAddress().getId());
+        logger.info("Created company: " + companyModel);
     }
 
     @Override
@@ -43,6 +48,7 @@ public class CompanyServiceImpl implements CompanyService {
     public void update(CompanyModel companyModel) {
         companyDao.update(companyModel);
         addressDao.update(companyModel.getAddress());
+        logger.info("Updated company: " + companyModel);
     }
 
     @Override
@@ -56,10 +62,13 @@ public class CompanyServiceImpl implements CompanyService {
                     addressDao.remove(branch.getAddress().getId());
                 }
         );
+        logger.info("Removed company: " + companyModel);
     }
 
     @Override
     public List<CompanyModel> getAll() {
-        return companyMapper.toList(companyDao.findAll());
+        List<CompanyModel> companies = companyMapper.toList(companyDao.findAll());
+        logger.info("Received companies in the amount " + companies.size());
+        return companies;
     }
 }
