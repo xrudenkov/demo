@@ -34,12 +34,10 @@ public class AddressDaoImpl implements AddressDao {
         address.setStreet(addressModel.getStreet());
         address.setHouse(addressModel.getHouse());
         address.setApartment(addressModel.getApartment());
-        entityManager.flush();
     }
 
     @Override
     public void remove(Long id) {
         entityManager.remove(getById(id));
-        entityManager.flush();
     }
 }

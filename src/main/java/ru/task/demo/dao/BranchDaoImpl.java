@@ -32,12 +32,10 @@ public class BranchDaoImpl implements BranchDao {
         }
         branch.setName(branchModel.getName());
         branch.setRegistrationDate(DateFormatter.toDate(branchModel.getRegistrationDate()));
-        em.flush();
     }
 
     @Override
     public void remove(Long id) {
         em.remove(getById(id));
-        em.flush();
     }
 }

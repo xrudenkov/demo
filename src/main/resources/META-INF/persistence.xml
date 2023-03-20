@@ -7,8 +7,7 @@
         <jta-data-source>java:/jdbc/datasources/mysqlDS</jta-data-source>
         <properties>
             <property name="hibernate.show_sql" value="true"/>
-            <property name="hibernate.transaction.flush_before_completion" value="true"/>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
         </properties>
     </persistence-unit>
 </persistence>

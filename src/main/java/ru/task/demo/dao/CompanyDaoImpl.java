@@ -42,12 +42,10 @@ public class CompanyDaoImpl implements CompanyDao{
         company.setName(companyModel.getName());
         company.setLegalForm(LegalFormEnum.fromString(companyModel.getLegalForm()));
         company.setRegistrationDate(DateFormatter.toDate(companyModel.getRegistrationDate()));
-        em.flush();
     }
 
     @Override
     public void remove(Long id) {
         em.remove(getById(id));
-        em.flush();
     }
 }
