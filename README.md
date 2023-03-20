@@ -11,3 +11,6 @@ docker-compose up
 
 and go to http://localhost:8080/zk/demo.zul
 ```
+#### Result ####
+![plot](screenshots/Screen1.png)
+![plot](screenshots/Screen2.png)
